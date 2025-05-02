@@ -3,6 +3,11 @@ import Home from "../Layout/Home";
 import Homepage from "../pages/Homepage";
 // import Categories from "../Componants/Categories";
 import CatagoryNews from "../pages/CatagoryNews";
+import Layout from "../pages/AuthLayout/Layout";
+import Login from "../Componants/Sign/Login";
+import Register from "../Componants/Sign/Register";
+import Details from "../pages/Details";
+import Privet from "../pages/Privet";
 
 
 
@@ -24,11 +29,25 @@ const Router = createBrowserRouter([
     },
     {
         path: '/auth',
-        element : <div>this is authentication</div>
+        Component: Layout,
+        children : [
+            {
+                // index: true,
+                path: '/auth/login',
+                Component: Login
+            },
+            {
+               path: '/auth/register',
+                Component: Register
+            }
+        ]
     },
     {
-        path: '/news',
-        element : <div>this is news</div>
+        path: '/news/:id',
+        element: <Privet>
+             <Details></Details> 
+        </Privet>,
+        loader: ()=> fetch('/news.json')
     },
     {
         path: '/*',

@@ -1,19 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { IoShareSocialOutline } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
-import { BiBook } from 'react-icons/bi';
+
 import { BsBookmarks } from 'react-icons/bs';
+import { Link } from 'react-router';
 
 const NewCard = ({ single }) => {
     // console.log(single);
     const {author, details, image_url, 
-        rating, thumbnail_url, title,
-         total_view} = single
-
-        //  const [show , setShow] = useState('')
-
-        //     setShow(details)
-        //     console.log(show);
+        rating, title,
+         total_view , id} = single
 
     return (
         <div>
@@ -43,9 +39,9 @@ const NewCard = ({ single }) => {
                         <p className="text-gray-600 text-sm mb-3">
                            {
                             details.length > 200 ? (<>
-                                {details.slice(0, 200)}...<span className='text-base text-red-500 font-semibold, hover:underline'>
+                                {details.slice(0, 200)}...<Link to={`/news/${id}`} className='text-base text-red-500 font-semibold, hover:underline'>
                                     Read More
-                                </span>
+                                </Link>
                             </>) :
                              (details)
                            }
