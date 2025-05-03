@@ -1,25 +1,40 @@
 import React, { use } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { AuthContext } from '../auth/Authconext';
 
 const Register = () => {
 
-    const { createUser , setUser} = use(AuthContext)
+    const { createUser, setUser, updateUser } = use(AuthContext)
+
+    const navigate = useNavigate()
+    // console.log(updateUser);
 
     const handleRegister = (e) => {
         e.preventDefault()
         const email = e.target.email.value
+        const name = e.target.name.value
+        const photo = e.target.photo.value
         const password = e.target.password.value
 
-        // console.log(email, password);
+
+         console.log(email, password, name, photo);
         createUser(email, password)
-        .then(result => {
-            const user = result.user
-            setUser(user)
-        })
-        .catch((error) =>{
-            console.log(error);
-        })
+            .then(result => {
+                const user = result.user;
+                // setUser(user)
+                updateUser({ displayName: name, photoURL: photo })
+                    .then(() => {
+                        setUser({...user, displayName: name, photoURL: photo})
+                        navigate('/')
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        setUser(user)
+                      });
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     return (
@@ -39,7 +54,7 @@ const Register = () => {
                         {/* photo url */}
                         <label className="label">Photo url</label>
                         <input type="text"
-                            name='name'
+                            name='photo'
                             className="input"
                             placeholder="Photo url"
 
